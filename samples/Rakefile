@@ -120,7 +120,8 @@ task :run => :download_jars do |t|
   end
   log_configuration = ENV['log_configuration']
   puts "Running the Kinesis processing application..."
-  classpath = FileList["#{JAR_DIR}/*.jar"].join(':')
+
+  classpath = MAVEN_PACKAGES.map { |jar| get_maven_jar_info(*jar).last }.sort.join(':')
   classpath += ":#{SAMPLES_DIR}"
   ENV['PATH'] = "#{ENV['PATH']}:#{SAMPLES_DIR}"
 
